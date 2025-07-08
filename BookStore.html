@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Ayse's Book Store</title>
+  <style>
+     
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      
+      body {
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+          color: #333;
+          background-color: #f4f4f4;
+      }
+
+      
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+      }
+
+      header {
+          background: #f56ccc;
+          color: white;
+          padding: 1rem 0;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+      }
+
+      .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+
+      .logo {
+          font-size: 1.8rem;
+          font-weight: bold;
+      }
+
+      .nav-links {
+          display: flex;
+          gap: 20px;
+      }
+
+      .nav-links a {
+          color: white;
+          text-decoration: none;
+          padding: 5px 10px;
+          border-radius: 3px;
+          transition: background 0.3s;
+      }
+
+      .nav-links a:hover {
+          background: #f56ccc;
+      }
+
+      .cart-icon {
+          position: relative;
+          cursor: pointer;
+      }
+
+      .cart-count {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          background: #f56ccc;
+          color: white;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+      }
+
+      main {
+          margin-top: 80px;
+          padding: 20px 0;
+      }
+
+      .login-section, .search-section, .books-section, .checkout-section {
+          background: white;
+          margin: 20px 0;
+          padding: 30px;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+
+      .hidden {
+          display: none;
+      }
+
+      .login-form {
+          max-width: 400px;
+          margin: 0 auto;
+      }
+
+      .form-group {
+          margin-bottom: 20px;
+      }
+
+      .form-group label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+      }
+
+      .form-group input {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 16px;
+      }
+
+      .btn {
+          background: #992368;
+          color: white;
+          padding: 12px 24px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background 0.3s;
+      }
+
+      .btn:hover {
+          background: #fc8bcd;
+      }
+
+      .btn-danger {
+          background: #e74c3c;
+      }
+
+      .btn-danger:hover {
+          background: #c0392b;
+      }
+
+      .btn-success {
+          background: #27ae60;
+      }
+
+      .btn-success:hover {
+          background: #229954;
+      }
+
+      .search-bar {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 20px;
+      }
+
+      .search-input {
+          flex: 1;
+          padding: 12px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 16px;
+      }
+
+      .books-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 20px;
+          margin-top: 20px;
+      }
+
+      .book-card {
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 20px;
+          text-align: center;
+          transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .book-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      }
+
+      .book-image img {
+          width: 120px;
+          height: 160px;
+          border-radius: 4px;
+      }
+
+      .stock {
+          font-size: 0.9rem;
+          color: #e74c3c;
+          margin-top: 5px;
+      }
+
+      .cart-items {
+          margin-bottom: 20px;
+      }
+
+      .cart-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          margin-bottom: 10px;
+      }
+
+      .cart-total {
+          font-size: 1.5rem;
+          font-weight: bold;
+          text-align: right;
+          margin: 20px 0;
+      }
+
+      .error {
+          color: #f71900;
+          margin-top: 10px;
+          padding: 10px;
+          background: #fdf2f2;
+          border: 1px solid #fecaca;
+          border-radius: 4px;
+      }
+
+      .success {
+          color: #27ae60;
+          margin-top: 10px;
+          padding: 10px;
+          background: #f0f9ff;
+          border: 1px solid #bfdbfe;
+          border-radius: 4px;
+      }
+
+      .user-info {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      }
+
+      @media (max-width: 768px) {
+          .header-content {
+              flex-direction: column;
+              gap: 10px;
+          }
+
+          .nav-links {
+              flex-wrap: wrap;
+              justify-content: center;
+          }
+
+          main {
+              margin-top: 120px;
+          }
+      }
+  </style>
+</head>
+<body>
+  <header>
+      <div class="container">
+          <div class="header-content">
+              
+              <div class="logo">Ayse's Book Store</div>
+              
+              <nav class="nav-links">
+                  <a href="#" onclick="showSection('home')">Home</a>
+                  <a href="#" onclick="showSection('search')">Browse Books</a>
+                  <a href="#" onclick="showSection('cart')">Cart</a>
+                  <div class="user-info">
+                      
+                      <span id="userGreeting" class="hidden">Welcome, <span id="username"></span>!</span>
+                      
+                      <a href="#" id="loginLink" onclick="showSection('login')">Login</a>
+                      <a href="#" id="logoutLink" class="hidden" onclick="logout()">Logout</a>
+                  </div>
+              </nav>
+              
+              <div class="cart-icon" onclick="showSection('cart')">
+                  🛒 <span class="cart-count" id="cartCount">0</span>
+              </div>
+          </div>
+      </div>
+  </header>
+
+  <main class="container">
+      
+      <section id="loginSection" class="login-section">
+          <h2>Login to Ayse's Book Store</h2>
+          <!-- Login form -->
+          <form class="login-form" onsubmit="handleLogin(event)">
+              <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                  <label for="password">Password:</label>
+                  <input type="password" id="password" name="password" required>
+              </div>
+              <button type="submit" class="btn">Login</button>
+              
+              <div id="loginError" class="error hidden"></div>
+              <div id="loginSuccess" class="success hidden"></div>
+          </form>
+          
+          <p style="margin-top: 20px; text-align: center; color: #78c6cb;">
+              Demo Credentials: ayse@bookstore.com / password123
+          </p>
+      </section>
+
+      <section id="homeSection" class="search-section hidden">
+          <h2>Welcome to Ayse's Book Store</h2>
+          <p>Your favorite Child Books are in this website. Browse our collection, add books to your cart, and enjoy reading!</p>
+          <button class="btn" onclick="showSection('search')">Start Shopping</button>
+      </section>
+
+      <section id="searchSection" class="search-section hidden">
+          <h2>Browse Books</h2>
+         
+          <div class="search-bar">
+              <input type="text" id="searchInput" class="search-input" placeholder="Search for books by title or author...">
+              <button class="btn" onclick="searchBooks()">Search</button>
+              <button class="btn" onclick="showAllBooks()">Show All</button>
+          </div>
+          
+          <div id="searchResults" class="books-grid"></div>
+      </section>
+
+      <section id="cartSection" class="checkout-section hidden">
+          <h2>Shopping Cart</h2>
+          
+          <div id="cartItems" class="cart-items"></div>
+          
+          <div class="cart-total">
+              Total: $<span id="cartTotal">0.00</span>
+          </div>
+          
+          <button class="btn btn-success" onclick="checkout()" id="checkoutBtn">Proceed to Checkout</button>
+          <button class="btn" onclick="clearCart()">Clear Cart</button>
+          
+          <div id="checkoutMessage" class="success hidden"></div>
+      </section>
+  </main>
+
+  <script>
+      
+      const books = [
+          { id: 1, title: "Winnie-the-Pooh", author: "A. A. Milne", price: 5.99, stock: 3, image: "winniethepooh.jpg"},
+          { id: 2, title: "Chicka Chicka Boom Boom", author: "Bill Martin, Jr.", price: 8.49, stock: 2, image: "chickachickaboomboom.jpg"},
+          { id: 3, title: "The Cat in the Hat", author: "Dr. Seuss", price: 5.99, stock: 5, image: "thecatinthehat.jpg"}
+      ];
+
+      let cart = [];
+      
+      let currentUser = null;
+
+      function showSection(section) {
+          document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+          document.getElementById(`${section}Section`).classList.remove('hidden');
+          if (section === 'cart') displayCart();
+      }
+
+      
+      function handleLogin(event) {
+          event.preventDefault();
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+          
+          document.getElementById('loginError').classList.add('hidden');
+          document.getElementById('loginSuccess').classList.add('hidden');
+
+          if (email === 'ayse@bookstore.com' && password === 'password123') {
+              currentUser = { email: email, name: 'User' };
+              
+              document.getElementById('loginSuccess').textContent = 'Login successful! Welcome to BookHaven.';
+              document.getElementById('loginSuccess').classList.remove('hidden');
+              
+              document.getElementById('userGreeting').classList.remove('hidden');
+              document.getElementById('username').textContent = currentUser.name;
+              document.getElementById('loginLink').classList.add('hidden');
+              document.getElementById('logoutLink').classList.remove('hidden');
+              
+              setTimeout(() => {
+                  showSection('home');
+              }, 2000);
+              
+          } else {
+              
+              document.getElementById('loginError').textContent = 'Invalid email or password. Please try again.';
+              document.getElementById('loginError').classList.remove('hidden');
+          }
+      }
+
+      function logout() {
+          currentUser = null;
+          cart = [];
+          updateCartCount();
+          document.getElementById('userGreeting').classList.add('hidden');
+          document.getElementById('loginLink').classList.remove('hidden');
+          document.getElementById('logoutLink').classList.add('hidden');
+          document.getElementById('email').value = '';
+          document.getElementById('password').value = '';
+          document.getElementById('loginError').classList.add('hidden');
+          document.getElementById('loginSuccess').classList.add('hidden');
+          showSection('login');
+      }
+
+      function searchBooks() {
+          const query = document.getElementById('searchInput').value.toLowerCase().trim();
+          if (query === '') {
+              showAllBooks();
+              return;
+          }
+          
+          const filteredBooks = books.filter(book => 
+              book.title.toLowerCase().includes(query) || 
+              book.author.toLowerCase().includes(query)
+          );
+          displayBooks(filteredBooks);
+      }
+
+      
+      function showAllBooks() {
+          displayBooks(books);
+      }
+
+      function displayBooks(booksToShow) {
+          const resultsContainer = document.getElementById('searchResults');
+          if (booksToShow.length === 0) {
+              resultsContainer.innerHTML = '<p>No books found matching your search.</p>';
+              return;
+          }
+          
+          resultsContainer.innerHTML = booksToShow.map(book => `
+              <div class="book-card">
+                  <div class="book-image">
+                      <img src="${book.image}" alt="${book.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDEyMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zNiA2MEg4NFY2NEgzNlY2MFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+CjwvcGF0aD4KPC9zdmc+'">
+                  </div>
+                  <div class="book-title"><strong>${book.title}</strong></div>
+                  <div class="book-author">by ${book.author}</div>
+                  <div class="book-price"><strong>$${book.price}</strong></div>
+                  <div class="stock">Stock: ${book.stock}</div>
+                  <button class="btn" onclick="addToCart(${book.id})" style="margin-top: 10px;">Add to Cart</button>
+              </div>
+          `).join('');
+      }
+
+      function addToCart(bookId) {
+          if (!currentUser) {
+              alert('Please login to add items to cart.');
+              showSection('login');
+              return;
+          }
+          
+          const book = books.find(b => b.id === bookId);
+          if (!book) return;
+          
+          const existingItem = cart.find(item => item.id === bookId);
+          
+          if (existingItem) {
+              if (existingItem.quantity >= book.stock) {
+                  alert(`Sorry, only ${book.stock} copies of "${book.title}" are available.`);
+                  return;
+              }
+              existingItem.quantity += 1;
+          } else {
+              cart.push({ ...book, quantity: 1 });
+          }
+          
+          updateCartCount();
+          
+          const button = event.target;
+          const originalText = button.textContent;
+          button.textContent = 'Added!';
+          button.style.background = '#27ae60';
+          setTimeout(() => {
+              button.textContent = originalText;
+              button.style.background = '#3498db';
+          }, 1000);
+      }
+
+      function updateCartCount() {
+          const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+          document.getElementById('cartCount').textContent = totalItems;
+      }
+
+      function displayCart() {
+          const cartContainer = document.getElementById('cartItems');
+          const totalElement = document.getElementById('cartTotal');
+          
+          if (cart.length === 0) {
+              cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+              totalElement.textContent = '0.00';
+              document.getElementById('checkoutBtn').disabled = true;
+              return;
+          }
+          
+          document.getElementById('checkoutBtn').disabled = false;
+          
+          cartContainer.innerHTML = cart.map(item => `
+              <div class="cart-item">
+                  <div>
+                      <strong>${item.title}</strong><br>
+                      <small>by ${item.author}</small><br>
+                      <small>Unit Price: $${item.price}</small>
+                  </div>
+                  <div style="text-align: right;">
+                      <div>Qty: ${item.quantity}</div>
+                      <div style="margin: 5px 0;"><strong>$${(item.price * item.quantity).toFixed(2)}</strong></div>
+                      <button class="btn btn-danger" onclick="removeFromCart(${item.id})" style="font-size: 12px; padding: 5px 10px;">Remove</button>
+                  </div>
+              </div>
+          `).join('');
+          
+          
+          const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+          totalElement.textContent = total.toFixed(2);
+      }
+
+      function removeFromCart(bookId) {
+          cart = cart.filter(item => item.id !== bookId);
+          updateCartCount();
+          displayCart();
+          
+          if (cart.length === 0) {
+              document.getElementById('checkoutMessage').classList.add('hidden');
+          }
+      }
+
+      function clearCart() {
+          cart = [];
+          updateCartCount();
+          displayCart();
+          document.getElementById('checkoutMessage').classList.add('hidden');
+      }
+
+      function checkout() {
+          if (cart.length === 0) {
+              alert('Your cart is empty!');
+              return;
+          }
+          
+          if (!currentUser) {
+              alert('Please login to complete checkout.');
+              showSection('login');
+              return;
+          }
+          
+          const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+          const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+          const orderDate = new Date().toLocaleDateString();
+          
+          document.getElementById('checkoutMessage').innerHTML = `
+              <h3> Your Order Successful!</h3>
+              <p><strong>Order ID:</strong> ${orderId}</p>
+              <p><strong>Date:</strong> ${orderDate}</p>
+              <p><strong>Total Amount:</strong> $${total.toFixed(2)}</p>
+              <p><strong>Items:</strong> ${cart.reduce((sum, item) => sum + item.quantity, 0)}</p>
+              <p>Thank you for your purchase! Your order will be processed shortly.</p>
+          `;
+          document.getElementById('checkoutMessage').classList.remove('hidden');
+          
+          setTimeout(() => {
+              cart = [];
+              updateCartCount();
+              displayCart();
+          }, 3000);
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+          showSection('login'); 
+          updateCartCount();
+          
+          document.getElementById('searchInput').addEventListener('keypress', function(e) {
+              if (e.key === 'Enter') {
+                  searchBooks();
+              }
+          });
+          
+          document.getElementById('email').addEventListener('keypress', function(e) {
+              if (e.key === 'Enter') {
+                  document.getElementById('password').focus();
+              }
+          });
+          
+          document.getElementById('password').addEventListener('keypress', function(e) {
+              if (e.key === 'Enter') {
+                  handleLogin(e);
+              }
+          });
+      });
+  </script>
+</body>
+</html>
