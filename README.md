@@ -31,9 +31,10 @@ bookstore/
    ```bash
    pip install openpyxl pyxlsb
 
-3. Run the automation script: python Automation.py
+3. Run the automation script:
+    python Automation.py
 
-4. Open BookStore.html in a web browser to view the bookstore page.
+5. Open BookStore.html in a web browser to view the bookstore page.
 
 ## To Do
 
@@ -43,5 +44,6 @@ Add interactivity (search, filter) using JavaScript
 
 Convert Excel data to a more accessible format if necessary
 
-Consider adding a backend (Flask, Django) and a database
+Consider adding a backend (Flask, Django) and a database.
+
 
